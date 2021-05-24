@@ -1,0 +1,7 @@
+/.idea/
+/log/
+db/dbconf.yml
+env.toml
+apidoc.json
+CDOJ
+qkcode

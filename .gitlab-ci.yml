@@ -1,0 +1,27 @@
+image: golang
+
+stages:
+  - test
+  - deploy
+
+test-startup:
+  stage: test
+  services:
+    - mysql:8.0
+  variables:
+    MYSQL_DATABASE: qkcode
+    MYSQL_ROOT_PASSWORD: root
+  script:
+    - go get bitbucket.org/liamstask/goose/cmd/goose
+    - go mod download
+    - cp env.ci.toml env.toml
+    - cp db/dbconf.ci.yml db/dbconf.yml
+    - goose up
+    - go build
+
+deploy:
+  stage: deploy
+  only:
+  - develop
+  script:
+    - curl -X POST "${DEV_HOST}/deploy?project=qkcode&token=${DEV_TOKEN}" --fail
