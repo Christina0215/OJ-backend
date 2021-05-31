@@ -9,8 +9,8 @@ import (
 )
 
 type Problem struct {
-	ID              uuid.UUID  `gorm:"primary_key;unique"`
-	UserId          uuid.UUID     `gorm:"not null"`
+	ID             uuid.UUID   `gorm:"primary_key;unique"`
+	UserId         uuid.UUID   `gorm:"not null"`
 	Title          string 	   `gorm:"not null"`
 	Type           string 	   `gorm:"not null"`
 	Difficulty     string 	   `gorm:"not null"`
@@ -21,14 +21,14 @@ type Problem struct {
 	StandardInput  string 	   `gorm:"not null"`
 	StandardOutput string 	   `gorm:"not null"`
 	Tip            string
-	TestdataNumber int 			`gorm:"not null"`
+	TestdataNumber int 		   `gorm:"not null"`
 
 	CreatedAt       time.Time
 	UpdatedAt       time.Time
 	DeletedAt       *time.Time
 
 	User            User       `gorm:"foreignKey:UserId;association_foreignKey:ID"`
-	Record			[]Record		`gorm:"foreignKey:ProblemId;association_foreignKey:ID"`
+	Record			[]Record   `gorm:"foreignKey:ProblemId;association_foreignKey:ID"`
 }
 
 func (problem *Problem) TableName() string {

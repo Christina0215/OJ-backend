@@ -7,9 +7,10 @@ import (
 	"qkcode/controller/contest"
 	"qkcode/controller/file"
 	"qkcode/controller/problem"
-	"qkcode/controller/record"
-	"qkcode/middleware"
 	"qkcode/controller/rank"
+	"qkcode/controller/record"
+	"qkcode/controller/solution"
+	"qkcode/middleware"
 	"runtime"
 )
 
@@ -45,6 +46,15 @@ func AddRoute() {
 				_record.GET("/record", record.GetList)
 				_record.GET("/record/:recordId", record.GetDetail)
 
+			}
+
+			_solution := _problem.Group("/:problemId").Use(middleware.AuthServiceProvider())
+			{
+				_solution.POST("/solution", solution.Create)
+				_solution.GET("/solution", solution.GetList)
+				_solution.GET("/solution/:solutionId", solution.GetDetail)
+				_solution.Use(middleware.AuthServiceProvider()).DELETE("/solution/:solutionId", solution.Delete)
+				_solution.Use(middleware.AuthServiceProvider()).PUT("/solution/:solutionId", solution.Modify)
 			}
 		}
 

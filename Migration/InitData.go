@@ -1,6 +1,7 @@
 package migration
 
 import (
+	uuid "github.com/satori/go.uuid"
 	"qkcode/boot/orm"
 	"qkcode/model"
 )
@@ -23,6 +24,27 @@ func InitData() {
 		db.Table("language").Create(&language)
 	}
 
+	var users = [2]model.User{
+		{
+			ID: uuid.NewV1(),
+			RoleID: 1,
+			Email: "1532706870@qq.com",
+			Gender: true,
+			Username: "admin",
+			Password: "ca9e680399decb9dd10d0cc4acda282c05e905174ab331bd9503e9f2e3b59f07",
+		},
+		{
+			ID: uuid.NewV1(),
+			RoleID: 2,
+			Email: "1532706870@qq.com",
+			Gender: false,
+			Username: "root",
+			Password: "ca9e680399decb9dd10d0cc4acda282c05e905174ab331bd9503e9f2e3b59f07",
+		},
+	}
+	for _, user := range users {
+		db.Table("user").Create(&user)
+	}
 	var judgeResults = [11]model.JudgeResult{
 		{Alias: "Pending", En: "Pending", Zh: "等待测评", Color: "#9e9e9e"},
 		{Alias: "Judging", En: "Judging", Zh: "正在测评", Color: "#2196f3"},

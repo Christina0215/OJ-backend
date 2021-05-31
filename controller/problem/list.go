@@ -82,11 +82,9 @@ func GetList(c *gin.Context) {
 					_problems = append(_problems,record.ProblemId)
 				}
 			}
-			fmt.Print(problems,_problems)
 			for i := 0; i <= len(problems); i++ {
 				index:=ContainsString(_problems,problems[i])
 				if(index!=-1){
-					fmt.Print(index,i,"¿")
 					if(i==len(problems)-1){
 						problems = problems[:i]
 					}else{

@@ -17,5 +17,6 @@ func AddTable() {
 		"contest_x_problem": &model.ContestXProblem{},
 		"contest_x_user":    &model.ContestXUser{},
 		"contest":           &model.Contest{},
+		"solution":          &model.Solution{},
 	})
 }
