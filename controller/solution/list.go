@@ -4,27 +4,35 @@ import (
 	"github.com/gin-gonic/gin"
 	"qkcode/boot/orm"
 	"qkcode/model"
+	"strconv"
 )
 
+
 func GetList(c *gin.Context) {
+	var language = c.DefaultQuery("type", "")
+	var problemID = c.DefaultQuery("id","")
+	var limit, _ = strconv.Atoi(c.DefaultQuery("limit", "15"))
+	var offset, _ = strconv.Atoi(c.DefaultQuery("offset", "0"))
 	var solutions []model.Solution
-	db := orm.GetDB()
-	var problemId = c.Param("problemId")
-	var offset = c.DefaultQuery("offset", "0")
-	var limit = c.DefaultQuery("limit", "15")
 	var total int
-	if db.Table("solution").Where("problem_id = ?", problemId).Order("created_at desc").Count(&total).Offset(offset).Limit(limit).
-		Find(&solutions).RecordNotFound() {
-		c.JSON(404, gin.H{"message": "抱歉，暂无题解"})
-		return
+	var lists = c.DefaultQuery("list", "normal")
+
+	db := orm.GetDB()
+	var result = db
+	if language != "" {
+		result = result.Where("language LIKE ? and problem_id = ?)", "%"+language+"%",problemID).Find(&model.Solution{})
 	}
+
 	var response []interface{}
-	for _, solution := range solutions {
-		data := solution.GetData("list")
-		response = append(response, data)
+	if lists == "normal" {
+		result.Table("solution").Count(&total).Offset(offset).Limit(limit).Find(&solutions).RecordNotFound()
+		for _, solution := range solutions {
+			var data = solution.GetData("list")
+			response = append(response, data)
+		}
 	}
 	c.JSON(200, gin.H{
 		"solutions": response,
-		"total":   total,
+		"total":    total,
 	})
 }

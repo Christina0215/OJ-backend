@@ -21,7 +21,6 @@ type Solution struct {
 	UpdatedAt       time.Time
 	DeletedAt       *time.Time
 
-	User            User       `gorm:"foreignKey:UserId;association_foreignKey:ID"`
 }
 
 func (solution *Solution) TableName() string {

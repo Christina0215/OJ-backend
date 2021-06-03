@@ -50,12 +50,12 @@ func Login(c *gin.Context) {
 	var user model.User
 	db := orm.GetDB()
 	if db.Where("username = ?", data.Username).First(&user).RecordNotFound() {
-		c.JSON(400, gin.H{"err_msg": "用户名或密码错误"})
+		c.JSON(400, gin.H{"err_msg": "用户名错误"})
 		return
 	}
 
 	if !utils.Sha256Check(user.Password, data.Password) {
-		c.JSON(400, gin.H{"err_msg": "用户名或密码错误"})
+		c.JSON(400, gin.H{"err_msg": "密码错误"})
 		return
 	}
 	var apiToken = model.ApiToken{UserId: user.ID}
