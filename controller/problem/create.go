@@ -1,6 +1,7 @@
 package problem
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	uuid "github.com/satori/go.uuid"
 	"qkcode/boot/orm"
@@ -55,6 +56,7 @@ type AddProblem struct {
 }
 
 func Create(c *gin.Context) {
+	fmt.Printf("asdad")
 	_user, _ := c.Get("user")
 	if _user == nil || _user.(model.User).RoleID != 1 {
 		c.AbortWithStatus(403)
