@@ -41,12 +41,12 @@ func (solution *Solution)AfterUpdate(scope *gorm.Scope) (err error)  {
 
 func (solution *Solution)GetData(kind string) map[string]interface{} {
 	db := orm.GetDB()
-	var author string
-	db.Where("user_id = ?", solution.UserId).First(&author)
+	var author User
+	db.Table("user").Where("id = ?", solution.UserId).Find(&author)
 	var data = map[string]interface{} {
 		"id": 			solution.ID,
 		"title":		solution.Title,
-		"user":		    author,
+		"user":		    author.Username,
 	}
 
 	if kind=="detail" {
