@@ -5,7 +5,6 @@ import (
 	uuid "github.com/satori/go.uuid"
 	"qkcode/boot/orm"
 	"qkcode/model"
-	:
 )
 
 
