@@ -5,7 +5,7 @@ import (
 	uuid "github.com/satori/go.uuid"
 	"qkcode/boot/orm"
 	"qkcode/model"
-	"fmt"
+	:
 )
 
 
@@ -19,20 +19,19 @@ type AddSolution struct {
 
 func Create(c *gin.Context) {
 	var data AddSolution
-	var id uuid.UUID
+	var user model.User
 	if err := c.BindJSON(&data); err != nil {
-		fmt.Print(err)
 		c.JSON(422, gin.H{"message": "参数格式错误"})
 		return
 	}
 	db := orm.GetDB()
-	db.Table("user").Where("id = ?", data.User).First(&id)
+	db.Table("user").Where("id = ?", data.User).First(&user)
 	var solutionId = uuid.NewV4()
 	var solution = model.Solution{
 		ID:             solutionId,
 		Title:          data.Title,
 		Content:        data.Content,
-		UserId:			id,
+		UserId:			user.ID,
 	}
 
 	if err := db.Create(&solution).Error; err != nil {

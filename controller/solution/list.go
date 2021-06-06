@@ -1,6 +1,7 @@
 package solution
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"qkcode/boot/orm"
 	"qkcode/model"
@@ -27,6 +28,7 @@ func GetList(c *gin.Context) {
 	if lists == "normal" {
 		result.Table("solution").Count(&total).Offset(offset).Limit(limit).Find(&solutions).RecordNotFound()
 		for _, solution := range solutions {
+			fmt.Print(solution)
 			var data = solution.GetData("list")
 			response = append(response, data)
 		}
